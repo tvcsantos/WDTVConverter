@@ -1,0 +1,85 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>mkvinfo</title><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div lang="en" class="refentry" title="mkvinfo"><a name="mkvinfo"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>mkvinfo &#8212; Print information about elements in <span class="productname">Matroska</span>&#8482; files</p></div><div class="refsynopsisdiv" title="Synopsis"><a name="mkvinfo.synopsis"></a><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">mkvinfo</code>  [options] {source-filename}</p></div></div><div class="refsect1" title="Description"><a name="mkvinfo.description"></a><h2>Description</h2><p>
+   This program lists all elements contained in a <span class="productname">Matroska</span>&#8482;. The output can be limited to a list of tracks in the file including
+   information about the codecs used.
+  </p><div class="variablelist"><dl><dt><span class="term"><code class="option">-g</code>, <code class="option">--gui</code></span></dt><dd><p>
+      Start the <abbr class="abbrev">GUI</abbr>. This option is only available if mkvinfo was compiled with <abbr class="abbrev">GUI</abbr> support.
+     </p></dd><dt><span class="term"><code class="option">-c</code>, <code class="option">--checksums</code></span></dt><dd><p>
+      Calculates and display the <code class="function">Adler32</code> checksum for each frame. Useful for debugging only.
+     </p></dd><dt><span class="term"><code class="option">-s</code>, <code class="option">--summary</code></span></dt><dd><p>
+      Only show a terse summary of what <span class="citerefentry"><span class="refentrytitle">mkvinfo</span>(1)</span> finds and not each element.
+     </p></dd><dt><span class="term"><code class="option">-x</code>, <code class="option">--hexdump</code></span></dt><dd><p>
+      Show the first 16 bytes of each frame as a hex dump.
+     </p></dd><dt><span class="term"><code class="option">-X</code>, <code class="option">--full-hexdump</code></span></dt><dd><p>
+      Show all bytes of each frame as a hex dump.
+     </p></dd><dt><span class="term"><code class="option">-z</code>, <code class="option">--size</code></span></dt><dd><p>
+      Show the size of each element including its header.
+     </p></dd><dt><a name="mkvinfo.description.command_line_charset"></a><span class="term"><code class="option">--command-line-charset</code> <em class="parameter"><code>character-set</code></em></span></dt><dd><p>
+      Sets the character set to convert strings given on the command line from. It defaults to the character set given by system's current
+      locale.
+     </p></dd><dt><a name="mkvinfo.description.output_charset"></a><span class="term"><code class="option">--output-charset</code> <em class="parameter"><code>character-set</code></em></span></dt><dd><p>
+      Sets the character set to which strings are converted that are to be output.  It defaults to the character set given by system's
+      current locale.
+     </p></dd><dt><a name="mkvinfo.description.redirect_output"></a><span class="term"><code class="option">-r</code>, <code class="option">--redirect-output</code> <em class="parameter"><code>file-name</code></em></span></dt><dd><p>
+      Writes all messages to the file <em class="parameter"><code>file-name</code></em> instead of to the console.  While this can be done easily with
+      output redirection there are cases in which this option is needed: when the terminal reinterprets the output before writing it to a
+      file.  The character set set with <a class="link" href="#mkvinfo.description.output_charset"><code class="option">--output-charset</code></a> is honored.
+     </p></dd><dt><a name="mkvinfo.description.ui_language"></a><span class="term"><code class="option">--ui-language</code> <em class="parameter"><code>code</code></em></span></dt><dd><p>
+      Forces the translations for the language <em class="parameter"><code>code</code></em> to be used (e.g.  '<code class="literal">de_DE</code>' for the German
+      translations). It is preferable to use the environment variables <code class="varname">LANG</code>, <code class="varname">LC_MESSAGES</code> and
+      <code class="varname">LC_ALL</code> though. Entering '<code class="literal">list</code>' as the <em class="parameter"><code>code</code></em> will cause <span class="citerefentry"><span class="refentrytitle">mkvinfo</span>(1)</span> to
+      output a list of available translations.
+     </p></dd><dt><a name="mkvinfo.description.verbose"></a><span class="term"><code class="option">-v</code>, <code class="option">--verbose</code></span></dt><dd><p>
+      Be more verbose. See the section about <a class="link" href="#mkvinfo.verbosity_levels" title="Verbosity levels">verbosity levels</a> for a description which
+      information will be output at which level.
+     </p></dd><dt><span class="term"><code class="option">-h</code>, <code class="option">--help</code></span></dt><dd><p>
+      Show usage information and exit.
+     </p></dd><dt><span class="term"><code class="option">-V</code>, <code class="option">--version</code></span></dt><dd><p>
+      Show version information and exit.
+     </p></dd><dt><span class="term"><code class="option">@</code>options-file</span></dt><dd><p>
+      Reads additional command line arguments from the file <em class="parameter"><code>options-file</code></em>.  Lines whose first non-whitespace
+      character is a hash mark ('<code class="literal">#</code>') are treated as comments and ignored. White spaces at the start and end of a line
+      will be stripped. Each line must contain exactly one option.  There is no meta character escaping.
+     </p><p>
+      The command line '<span class="command"><strong>mkvinfo -v -v input.mkv --redirect-output info.txt</strong></span>' could be converted into the following
+      option file:
+     </p><pre class="programlisting">
+# Be more verbose
+-v
+-v
+# Parse input.mkv
+input.mkv
+# and write the output to info.txt
+--redirect-output
+info.txt
+     </pre></dd></dl></div></div><div class="refsect1" title="Verbosity levels"><a name="mkvinfo.verbosity_levels"></a><h2>Verbosity levels</h2><p>
+   The <a class="link" href="#mkvinfo.description.verbose"><code class="option">-v</code></a> option can be used to increase <span class="citerefentry"><span class="refentrytitle">mkvinfo</span>(1)</span>'s verbosity level
+   and print more information about the current file.
+  </p><p>
+   At level 0 <span class="citerefentry"><span class="refentrytitle">mkvinfo</span>(1)</span> will print only the track headers it finds and their types. <span class="citerefentry"><span class="refentrytitle">mkvinfo</span>(1)</span> will exit as soon as the headers are parsed
+   completely (more technical: as soon as the first cluster is encountered). In this level the seek head entries and the cues will not be
+   displayed -- even if they're located in front of the track information.
+  </p><p>
+   At level 1 <span class="citerefentry"><span class="refentrytitle">mkvinfo</span>(1)</span> will also print all <span class="productname">Matroska</span>&#8482; elements encountered for the complete file but the seek head entries and the cue
+   entries. If the summary mode is enabled then <span class="citerefentry"><span class="refentrytitle">mkvinfo</span>(1)</span> will output the frame position as well.
+  </p><p>
+   At level 2 <span class="citerefentry"><span class="refentrytitle">mkvinfo</span>(1)</span> will also print the seek head entries, the cue entries and the file position at which each <span class="productname">Matroska</span>&#8482; element can be
+   found at.
+  </p><p>
+   At level 3 and above <span class="citerefentry"><span class="refentrytitle">mkvinfo</span>(1)</span> will print some information that is not directly connected to a <span class="productname">Matroska</span>&#8482; element. All other elements
+   only print stuff about the elements that were just found. Level 3 adds meta information to ease debugging (read: it's intended for
+   developers only). All lines written by level 3 are enclosed in square brackets to make filtering them out easy.
+  </p></div><div class="refsect1" title="Exit codes"><a name="id532058"></a><h2>Exit codes</h2><p>
+   <span class="citerefentry"><span class="refentrytitle">mkvinfo</span>(1)</span> exits with one of three exit codes:
+  </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+     <code class="constant">0</code> -- This exit codes means that the run has completed successfully.
+    </p></li><li class="listitem"><p>
+     <code class="constant">1</code> -- In this case <span class="citerefentry"><span class="refentrytitle">mkvinfo</span>(1)</span> has output at least one warning, but the run did continue.  A warning is
+     prefixed with the text '<code class="literal">Warning:</code>'.
+    </p></li><li class="listitem"><p>
+     <code class="constant">2</code> -- This exit code is used after an error occurred.  <span class="citerefentry"><span class="refentrytitle">mkvinfo</span>(1)</span> aborts right after outputting the error message.
+     Error messages range from wrong command line arguments over read/write errors to broken files.
+    </p></li></ul></div></div><div class="refsect1" title="See also"><a name="mkvinfo.seealso"></a><h2>See also</h2><p>
+   <span class="citerefentry"><span class="refentrytitle">mkvmerge</span>(1)</span>, <span class="citerefentry"><span class="refentrytitle">mkvextract</span>(1)</span>, <span class="citerefentry"><span class="refentrytitle">mkvpropedit</span>(1)</span>, <span class="citerefentry"><span class="refentrytitle">mmg</span>(1)</span>
+  </p></div><div class="refsect1" title="WWW"><a name="mkvinfo.www"></a><h2>WWW</h2><p>
+   The latest version can always be found at <a class="ulink" href="http://www.bunkus.org/videotools/mkvtoolnix/" target="_top">the MKVToolNix homepage</a>.
+  </p></div></div></body></html>
