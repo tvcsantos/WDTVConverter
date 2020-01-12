@@ -1,0 +1,126 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>mkvpropedit</title><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div lang="en" class="refentry" title="mkvpropedit"><a name="mkvextract"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>mkvpropedit &#8212; Modify properties of existing <span class="productname">Matroska</span>&#8482; files without a complete remux</p></div><div class="refsynopsisdiv" title="Synopsis"><a name="mkvpropedit.synopsis"></a><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">mkvpropedit</code>  [options] {source-filename} {actions}</p></div></div><div class="refsect1" title="Description"><a name="mkvpropedit.description"></a><h2>Description</h2><p>
+   This program analyses an existing <span class="productname">Matroska</span>&#8482; file and modifies some of its properties. Then it writes those modifications to the existing
+   file. Among the properties that can be changed are the segment information elements (e.g. the title) and the track headers (e.g. the
+   language code, 'default track' flag or the name).
+  </p><p>
+   Options:
+  </p><div class="variablelist"><dl><dt><a name="mkvpropedit.description.list_property_names"></a><span class="term"><code class="option">-l</code>, <code class="option">--list-property-names</code></span></dt><dd><p>
+      Lists all known and editable property names, their type (string, integer, boolean etc) and a short description. The program exits
+      afterwards. Therefore the <em class="parameter"><code>source-filename</code></em> parameter does not have to be supplied.
+     </p></dd><dt><a name="mkvpropedit.description.parse_mode"></a><span class="term"><code class="option">-p</code>, <code class="option">--parse-mode</code> <em class="parameter"><code>mode</code></em></span></dt><dd><p>
+      Sets the parse mode. The parameter '<em class="parameter"><code>mode</code></em>' can either be '<code class="literal">fast</code>' (which is also the default)
+      or '<code class="literal">full</code>'. The '<code class="literal">fast</code>' mode does not parse the whole file but uses the meta seek elements for
+      locating the required elements of a source file. In 99% of all cases this is enough. But for files that do not contain meta seek
+      elements or which are damaged the user might have to set the '<code class="literal">full</code>' parse mode. A full scan of a file can take a
+      couple of minutes while a fast scan only takes seconds.
+     </p></dd></dl></div><p>
+   Actions:
+  </p><div class="variablelist"><dl><dt><a name="mkvpropedit.description.edit"></a><span class="term"><code class="option">-e</code>, <code class="option">--edit</code> <em class="parameter"><code>selector</code></em></span></dt><dd><p>
+      Sets the <span class="productname">Matroska</span>&#8482; file section (segment information or a certain track's headers) that all following <a class="link" href="#mkvpropedit.description.add">add</a>, <a class="link" href="#mkvpropedit.description.set">set</a> and <a class="link" href="#mkvpropedit.description.delete">delete</a> actions operate on. This option can be used multiple times in order to make
+      modifications to more than one element.
+     </p><p>
+      See the section about <a class="link" href="#mkvpropedit.edit_selectors" title="Edit selectors">edit selectors</a> for a full description of the syntax.
+     </p></dd><dt><a name="mkvpropedit.description.add"></a><span class="term"><code class="option">-a</code>, <code class="option">--add</code> <em class="parameter"><code>name</code></em>=<em class="parameter"><code>value</code></em></span></dt><dd><p>
+      Adds a property <em class="parameter"><code>name</code></em> with the value <em class="parameter"><code>value</code></em>. The property will be added even if such a
+      property exists already. Note that most properties are unique and cannot occur more than once.
+     </p></dd><dt><a name="mkvpropedit.description.set"></a><span class="term"><code class="option">-s</code>, <code class="option">--set</code> <em class="parameter"><code>name</code></em>=<em class="parameter"><code>value</code></em></span></dt><dd><p>
+      Sets all occurrences of the property <em class="parameter"><code>name</code></em> to the value <em class="parameter"><code>value</code></em>. If no such property exists
+      then it will be added.
+     </p></dd><dt><a name="mkvpropedit.description.delete"></a><span class="term"><code class="option">-d</code>, <code class="option">--delete</code> <em class="parameter"><code>name</code></em></span></dt><dd><p>
+      Deletes all occurrences of the property <em class="parameter"><code>name</code></em>. Note that some properties are required and cannot be deleted.
+     </p></dd></dl></div><p>
+   Other options:
+  </p><div class="variablelist"><dl><dt><a name="mkvpropedit.description.command_line_charset"></a><span class="term"><code class="option">--command-line-charset</code> <em class="parameter"><code>character-set</code></em></span></dt><dd><p>
+      Sets the character set to convert strings given on the command line from. It defaults to the character set given by system's current
+      locale.
+     </p></dd><dt><a name="mkvpropedit.description.output_charset"></a><span class="term"><code class="option">--output-charset</code> <em class="parameter"><code>character-set</code></em></span></dt><dd><p>
+      Sets the character set to which strings are converted that are to be output.  It defaults to the character set given by system's
+      current locale.
+     </p></dd><dt><a name="mkvpropedit.description.redirect_output"></a><span class="term"><code class="option">-r</code>, <code class="option">--redirect-output</code> <em class="parameter"><code>file-name</code></em></span></dt><dd><p>
+      Writes all messages to the file <em class="parameter"><code>file-name</code></em> instead of to the console.  While this can be done easily with
+      output redirection there are cases in which this option is needed: when the terminal reinterprets the output before writing it to a
+      file.  The character set set with <a class="link" href="#mkvpropedit.description.output_charset"><code class="option">--output-charset</code></a> is honored.
+     </p></dd><dt><a name="mkvpropedit.description.ui_language"></a><span class="term"><code class="option">--ui-language</code> <em class="parameter"><code>code</code></em></span></dt><dd><p>
+      Forces the translations for the language <em class="parameter"><code>code</code></em> to be used (e.g.  '<code class="literal">de_DE</code>' for the German
+      translations). It is preferable to use the environment variables <code class="varname">LANG</code>, <code class="varname">LC_MESSAGES</code> and
+      <code class="varname">LC_ALL</code> though. Entering '<code class="literal">list</code>' as the <em class="parameter"><code>code</code></em> will cause <span class="citerefentry"><span class="refentrytitle">mkvextract</span>(1)</span> to
+      output a list of available translations.
+     </p></dd><dt><span class="term"><code class="option">-v</code>, <code class="option">--verbose</code></span></dt><dd><p>
+      Be verbose and show all the important <span class="productname">Matroska</span>&#8482; elements as they're read.
+     </p></dd><dt><span class="term"><code class="option">-h</code>, <code class="option">--help</code></span></dt><dd><p>
+      Show usage information and exit.
+     </p></dd><dt><span class="term"><code class="option">-V</code>, <code class="option">--version</code></span></dt><dd><p>
+      Show version information and exit.
+     </p></dd><dt><span class="term"><code class="option">@</code>options-file</span></dt><dd><p>
+      Reads additional command line arguments from the file <em class="parameter"><code>options-file</code></em>.  Lines whose first non-whitespace
+      character is a hash mark ('<code class="literal">#</code>') are treated as comments and ignored. White spaces at the start and end of a line
+      will be stripped. Each line must contain exactly one option.  There is no meta character escaping.
+     </p><p>
+      The command line '<span class="command"><strong>mkvpropedit source.mkv --edit track:a2 --set name=Comments</strong></span>' could be converted into the
+      following option file:
+     </p><pre class="programlisting">
+# Modify source.mkv
+source.mkv
+# Edit the second audio track
+--edit
+track:a2
+# and set the title to 'Comments'
+--set
+title=Comments
+     </pre></dd></dl></div></div><div class="refsect1" title="Edit selectors"><a name="mkvpropedit.edit_selectors"></a><h2>Edit selectors</h2><p>
+   The <a class="link" href="#mkvpropedit.description.edit"><code class="option">--edit</code></a> option sets the <span class="productname">Matroska</span>&#8482; file section (segment
+   information or a certain track's headers) that all following <a class="link" href="#mkvpropedit.description.add">add</a>, <a class="link" href="#mkvpropedit.description.set">set</a> and <a class="link" href="#mkvpropedit.description.delete">delete</a> actions operate
+   on. This stays valid until the next <a class="link" href="#mkvpropedit.description.edit"><code class="option">--edit</code></a> option is found. The
+   argument to this option is called the edit selector.
+  </p><div class="refsect2" title="Segment information"><a name="mkvpropedit.edit_selectors.segment_info"></a><h3>Segment information</h3><p>
+    The segment information can be selected with one of these three words: '<code class="literal">info</code>', '<code class="literal">segment_info</code>' or
+    '<code class="literal">segmentinfo</code>'. It contains properties like the segment title or the segment <abbr class="abbrev">UID</abbr>.
+   </p></div><div class="refsect2" title="Track headers"><a name="mkvpropedit.edit_selectors.track_headers"></a><h3>Track headers</h3><p>
+    Track headers can be selected with a slightly more complex selector. All variations start with '<code class="literal">track:</code>'. The track
+    header properties include elements like the language code, 'default track' flag or the track's name.
+   </p><div class="variablelist"><dl><dt><span class="term"><code class="option">track:</code><em class="parameter"><code>n</code></em></span></dt><dd><p>
+       If the parameter <em class="parameter"><code>n</code></em> is a number then the <em class="parameter"><code>n</code></em>th track will be selected. The track order is
+       the same that <span class="citerefentry"><span class="refentrytitle">mkvmerge</span>(1)</span>'s <code class="option">--identify</code> option outputs.
+      </p></dd><dt><span class="term"><code class="option">track:</code><em class="parameter"><code>t</code></em><em class="parameter"><code>n</code></em></span></dt><dd><p>
+       If the parameter starts with a single character <em class="parameter"><code>t</code></em> followed by a <em class="parameter"><code>n</code></em> then the
+       <em class="parameter"><code>n</code></em>th track of a specific track type will be selected. The track type parameter <em class="parameter"><code>t</code></em> must be
+       one of these four characters: '<code class="literal">a</code>' for an audio track, '<code class="literal">b</code>' for a button track,
+       '<code class="literal">s</code>' for a subtitle track and '<code class="literal">v</code>' for a video track. The track order is the same that
+       <span class="citerefentry"><span class="refentrytitle">mkvmerge</span>(1)</span>'s <code class="option">--identify</code> option outputs.
+      </p></dd><dt><span class="term"><code class="option">track:</code>=<em class="parameter"><code>uid</code></em></span></dt><dd><p>
+       If the parameter starts with a '<code class="literal">=</code>' followed by a number <em class="parameter"><code>uid</code></em> then the track whose track
+       <abbr class="abbrev">UID</abbr> element equals this <em class="parameter"><code>uid</code></em>. Track <abbr class="abbrev">UIDs</abbr> can be obtained with <span class="citerefentry"><span class="refentrytitle">mkvinfo</span>(1)</span>.
+      </p></dd><dt><span class="term"><code class="option">track:</code>@<em class="parameter"><code>number</code></em></span></dt><dd><p>
+       If the parameter starts with a '<code class="literal">@</code>' followed by a number <em class="parameter"><code>number</code></em> then the track whose track
+       number element equals this <em class="parameter"><code>number</code></em>. Track number can be obtained with <span class="citerefentry"><span class="refentrytitle">mkvinfo</span>(1)</span>.
+      </p></dd></dl></div></div><div class="refsect2" title="Notes"><a name="mkvpropedit.edit_selectors.notes"></a><h3>Notes</h3><p>
+    Due to the nature of the track edit selectors it is possible that several selectors actually match the same track headers. In such cases
+    all actions for those edit selectors will be combined and executed in the order in which they're given on the command line.
+   </p></div></div><div class="refsect1" title="Examples"><a name="mkvpropedit.examples"></a><h2>Examples</h2><p>
+   The following example edits a file called '<code class="literal">movie.mkv</code>'. It sets the segment title and modifies the language code of an
+   audio and a subtitle track. Note that this example can be shortened by leaving out the first <a class="link" href="#mkvpropedit.description.edit"><code class="option">--edit</code></a> option because editing the segment information element is the
+   default for all options found before the first <a class="link" href="#mkvpropedit.description.edit"><code class="option">--edit</code></a> option anyway.
+  </p><pre class="screen">
+$ mkvpropedit movie.mkv --edit info --set "title=The movie" --edit track:a1 --set language=fre --edit track:a2 --set language=ita
+  </pre><p>
+   The second example removes the 'default track flag' from the first subtitle track and sets it for the second one. Note that
+   <span class="citerefentry"><span class="refentrytitle">mkvpropedit</span>(1)</span>, unlike <span class="citerefentry"><span class="refentrytitle">mkvmerge</span>(1)</span>, does not set the 'default track flag' of other tracks to '0' if it is set to '1' for a different track
+   automatically.
+  </p><pre class="screen">
+$ mkvpropedit movie.mkv --edit tracks:s1 --set flag-default=0 --edit tracks:s2 --set flag-default=1
+  </pre></div><div class="refsect1" title="Exit codes"><a name="id439137"></a><h2>Exit codes</h2><p>
+   <span class="citerefentry"><span class="refentrytitle">mkvpropedit</span>(1)</span> exits with one of three exit codes:
+  </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+     <code class="constant">0</code> -- This exit codes means that the modification has completed successfully.
+    </p></li><li class="listitem"><p>
+     <code class="constant">1</code> -- In this case <span class="citerefentry"><span class="refentrytitle">mkvpropedit</span>(1)</span> has output at least one warning, but the modification did continue.  A warning is
+     prefixed with the text '<code class="literal">Warning:</code>'.  Depending on the issues involved the resulting files might be ok or not.  The
+     user is urged to check both the warning and the resulting files.
+    </p></li><li class="listitem"><p>
+     <code class="constant">2</code> -- This exit code is used after an error occurred.  <span class="citerefentry"><span class="refentrytitle">mkvpropedit</span>(1)</span> aborts right after outputting the error message.
+     Error messages range from wrong command line arguments over read/write errors to broken files.
+    </p></li></ul></div></div><div class="refsect1" title="See also"><a name="mkvpropedit.seealso"></a><h2>See also</h2><p>
+   <span class="citerefentry"><span class="refentrytitle">mkvmerge</span>(1)</span>, <span class="citerefentry"><span class="refentrytitle">mkvinfo</span>(1)</span>, <span class="citerefentry"><span class="refentrytitle">mkvextract</span>(1)</span>, <span class="citerefentry"><span class="refentrytitle">mmg</span>(1)</span>
+  </p></div><div class="refsect1" title="WWW"><a name="mkvpropedit.www"></a><h2>WWW</h2><p>
+   The latest version can always be found at <a class="ulink" href="http://www.bunkus.org/videotools/mkvtoolnix/" target="_top">the MKVToolNix homepage</a>.
+  </p></div></div></body></html>

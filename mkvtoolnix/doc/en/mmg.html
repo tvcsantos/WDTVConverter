@@ -1,0 +1,23 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>mmg</title><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div lang="en" class="refentry" title="mmg"><a name="mmg"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>mmg &#8212; a GUI for <span class="citerefentry"><span class="refentrytitle">mkvmerge</span>(1)</span> including a chapter and a header editor</p></div><div class="refsynopsisdiv" title="Synopsis"><a name="mmg.synopsis"></a><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">mmg</code>  [[
+     {--edit-headers}
+      {filename.mkv}
+    ] |  [preferences-file.mmg] |  [source-file.ext]]</p></div></div><div class="refsect1" title="Description"><a name="mmg.description"></a><h2>Description</h2><p>
+   <span class="citerefentry"><span class="refentrytitle">mmg</span>(1)</span> is a <span class="productname">wxWindows</span>&#8482; based <abbr class="abbrev">GUI</abbr> for <span class="citerefentry"><span class="refentrytitle">mkvmerge</span>(1)</span>. It offers easy access to all of <span class="citerefentry"><span class="refentrytitle">mkvmerge</span>(1)</span>'s
+   options. All settings (e.g. source files, track options etc) can be saved and restored.  Included is a chapter editor that can read
+   <abbr class="abbrev">OGM</abbr> style and <abbr class="abbrev">XML</abbr> style chapter files, write <abbr class="abbrev">XML</abbr> style chapter files and even read chapters from <span class="productname">Matroska</span>&#8482; files
+   and write chapters directly to <span class="productname">Matroska</span>&#8482; files. Included is also a header editor that can be used to quickly change properties of
+   existing <span class="productname">Matroska</span>&#8482; files without needing a complete remux.
+  </p><p>
+   <span class="citerefentry"><span class="refentrytitle">mmg</span>(1)</span> knows few options. The first possibility is to start it with a single file name. If that file name's extenion is
+   '<code class="literal">.mmg</code>' then it will be treated as a preferences file and <span class="citerefentry"><span class="refentrytitle">mmg</span>(1)</span> will load its setting when it starts. Otherwise the
+   name is interpreted as being the name of an input file which will be added.
+  </p><p>
+   The second operation mode is invoked with the option <code class="option">--edit-headers</code> and a file name. This lets <span class="citerefentry"><span class="refentrytitle">mmg</span>(1)</span> run its header
+   editor and load the file.
+  </p><p>
+   The full documentation is available in HTML form (<code class="filename">doc/mkvmerge-gui.html</code>).
+  </p></div><div class="refsect1" title="See also"><a name="mmg.seealso"></a><h2>See also</h2><p>
+   <span class="citerefentry"><span class="refentrytitle">mkvmerge</span>(1)</span>, <span class="citerefentry"><span class="refentrytitle">mkvextract</span>(1)</span>, <span class="citerefentry"><span class="refentrytitle">mkvinfo</span>(1)</span>, <span class="citerefentry"><span class="refentrytitle">mkvpropedit</span>(1)</span>
+  </p></div><div class="refsect1" title="WWW"><a name="mmg.www"></a><h2>WWW</h2><p>
+   The latest version can always be found at <a class="ulink" href="http://www.bunkus.org/videotools/mkvtoolnix/" target="_top">the MKVToolNix homepage</a>.
+  </p></div></div></body></html>

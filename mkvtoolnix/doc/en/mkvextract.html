@@ -1,0 +1,180 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>mkvextract</title><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div lang="en" class="refentry" title="mkvextract"><a name="mkvextract"></a><div class="titlepage"></div><div class="refnamediv"><h2>Name</h2><p>mkvextract &#8212; extract tracks from <span class="productname">Matroska</span>&#8482; files into other files</p></div><div class="refsynopsisdiv" title="Synopsis"><a name="mkvextract.synopsis"></a><h2>Synopsis</h2><div class="cmdsynopsis"><p><code class="command">mkvextract</code>  {mode} {source-filename} [options] [extraction-spec]</p></div></div><div class="refsect1" title="Description"><a name="mkvextract.description"></a><h2>Description</h2><p>
+   This program extracts specific parts from a <span class="productname">Matroska</span>&#8482; file to other useful formats. The first argument, <code class="option">mode</code>, tells
+   <span class="citerefentry"><span class="refentrytitle">mkvextract</span>(1)</span> what to extract. Currently supported is the extraction of <a class="link" href="#mkvextract.description.tracks" title="Track extraction mode">tracks</a>, <a class="link" href="#mkvextract.description.tags" title="Tags extraction mode">tags</a>, <a class="link" href="#mkvextract.description.attachments" title="Attachments extraction mode">attachments</a>, <a class="link" href="#mkvextract.description.chapters" title="Chapters extraction mode">chapters</a>, <a class="link" href="#mkvextract.description.cuesheets" title="Cue sheet extraction mode">CUE sheets</a> and <a class="link" href="#mkvextract.description.timecodes_v2" title="Timecode extraction mode">timecodes</a>.  The second argument is the name of the source file. It must be a
+   <span class="productname">Matroska</span>&#8482; file. All following arguments are options and extraction specifications; both of which depend on the selected mode.
+  </p><div class="refsect2" title="Common options"><a name="mkvextract.description.common"></a><h3>Common options</h3><p>
+    The following options are available in all modes and only described once in this section.
+   </p><div class="variablelist"><dl><dt><a name="mkvextract.description.parse_fully"></a><span class="term"><code class="option">-f</code>, <code class="option">--parse-fully</code></span></dt><dd><p>
+       Sets the parse mode to 'full'. The default mode does not parse the whole file but uses the meta seek elements for locating the
+       required elements of a source file. In 99% of all cases this is enough. But for files that do not contain meta seek elements or which
+       are damaged the user might have to use this mode. A full scan of a file can take a couple of minutes while a fast scan only takes
+       seconds.
+      </p></dd><dt><a name="mkvextract.description.common.command_line_charset"></a><span class="term"><code class="option">--command-line-charset</code> <em class="parameter"><code>character-set</code></em></span></dt><dd><p>
+       Sets the character set to convert strings given on the command line from. It defaults to the character set given by system's current
+       locale.
+      </p></dd><dt><a name="mkvextract.description.common.output_charset"></a><span class="term"><code class="option">--output-charset</code> <em class="parameter"><code>character-set</code></em></span></dt><dd><p>
+       Sets the character set to which strings are converted that are to be output.  It defaults to the character set given by system's
+       current locale.
+      </p></dd><dt><a name="mkvextract.description.common.redirect_output"></a><span class="term"><code class="option">-r</code>, <code class="option">--redirect-output</code> <em class="parameter"><code>file-name</code></em></span></dt><dd><p>
+       Writes all messages to the file <em class="parameter"><code>file-name</code></em> instead of to the console.  While this can be done easily with
+       output redirection there are cases in which this option is needed: when the terminal reinterprets the output before writing it to a
+       file.  The character set set with <a class="link" href="#mkvextract.description.common.output_charset"><code class="option">--output-charset</code></a> is honored.
+      </p></dd><dt><a name="mkvextract.description.common.ui_language"></a><span class="term"><code class="option">--ui-language</code> <em class="parameter"><code>code</code></em></span></dt><dd><p>
+       Forces the translations for the language <em class="parameter"><code>code</code></em> to be used (e.g.  '<code class="literal">de_DE</code>' for the German
+       translations). It is preferable to use the environment variables <code class="varname">LANG</code>, <code class="varname">LC_MESSAGES</code> and
+       <code class="varname">LC_ALL</code> though. Entering '<code class="literal">list</code>' as the <em class="parameter"><code>code</code></em> will cause <span class="citerefentry"><span class="refentrytitle">mkvextract</span>(1)</span> to
+       output a list of available translations.
+      </p></dd><dt><span class="term"><code class="option">-v</code>, <code class="option">--verbose</code></span></dt><dd><p>
+       Be verbose and show all the important <span class="productname">Matroska</span>&#8482; elements as they're read.
+      </p></dd><dt><span class="term"><code class="option">-h</code>, <code class="option">--help</code></span></dt><dd><p>
+       Show usage information and exit.
+      </p></dd><dt><span class="term"><code class="option">-V</code>, <code class="option">--version</code></span></dt><dd><p>
+       Show version information and exit.
+      </p></dd><dt><span class="term"><code class="option">@</code>options-file</span></dt><dd><p>
+       Reads additional command line arguments from the file <em class="parameter"><code>options-file</code></em>.  Lines whose first non-whitespace
+       character is a hash mark ('<code class="literal">#</code>') are treated as comments and ignored. White spaces at the start and end of a line
+       will be stripped. Each line must contain exactly one option.  There is no meta character escaping.
+      </p><p>
+       The command line '<span class="command"><strong>mkvextract tracks source.mkv --raw 1:destination.raw</strong></span>' could be converted into the following
+       option file:
+      </p><pre class="programlisting">
+# Extract a track from source.mkv
+tracks
+source.mkv
+# Output the track as raw data.
+--raw
+1:destination.raw
+      </pre></dd></dl></div></div><div class="refsect2" title="Track extraction mode"><a name="mkvextract.description.tracks"></a><h3>Track extraction mode</h3><p>
+    Syntax: <span class="command"><strong>mkvextract</strong></span> <code class="option">tracks</code> <em class="parameter"><code>source-filename</code></em> [<span class="optional"><em class="parameter"><code>options</code></em></span>] <em class="parameter"><code>TID1:dest-filename1</code></em> [<span class="optional"><em class="parameter"><code>TID2:dest-filename2</code></em> ...</span>]
+   </p><p>
+    The following command line options are available for each track in the '<code class="literal">tracks</code>' extraction mode.  They have to appear
+    in front of the track specification (see below) they should be applied to.
+   </p><div class="variablelist"><dl><dt><span class="term"><code class="option">-c</code> <em class="parameter"><code>character-set</code></em></span></dt><dd><p>
+       Sets the character set to convert the next text subtitle track to. Only valid if the
+       next track ID targets a text subtitle track. It defaults to UTF-8.
+      </p></dd><dt><span class="term"><code class="option">--blockadd</code> <em class="parameter"><code>level</code></em></span></dt><dd><p>
+       Keep only the BlockAdditions up to this level.  The default is to keep all levels.  This option only affects certain kinds of codecs
+       like WAVPACK4.
+      </p></dd><dt><span class="term"><code class="option">--cuesheet</code></span></dt><dd><p>
+       Causes <span class="citerefentry"><span class="refentrytitle">mkvextract</span>(1)</span> to extract a <abbr class="abbrev">CUE</abbr> sheet from the chapter information and tag data for the following track into a
+       file whose name is the track's output name with '<code class="literal">.cue</code>' appended to it.
+      </p></dd><dt><span class="term"><code class="option">--raw</code></span></dt><dd><p>
+       Extracts the raw data into a file without any container data around it.  Unlike the <a class="link" href="#mkvextract.description.tracks.fullraw"><code class="option">--fullraw</code></a> flag this flag does not cause the contents of the
+       <code class="classname">CodecPrivate</code> element to be written to the file.  This mode works with all <code class="classname">CodecIDs</code>, even
+       the ones that <span class="citerefentry"><span class="refentrytitle">mkvextract</span>(1)</span> doesn't support otherwise, but the resulting files might not be usable.
+      </p></dd><dt><a name="mkvextract.description.tracks.fullraw"></a><span class="term"><code class="option">--fullraw</code></span></dt><dd><p>
+       Extracts the raw data into a file without any container data around it.  The contents of the <code class="classname">CodecPrivate</code>
+       element will be written to the file first if the track contains such a header element.  This mode works with all
+       <code class="classname">CodecIDs</code>, even the ones that <span class="citerefentry"><span class="refentrytitle">mkvextract</span>(1)</span> doesn't support otherwise, but the resulting files might not be
+       usable.
+      </p></dd><dt><span class="term"><em class="parameter"><code>TID:outname</code></em></span></dt><dd><p>
+       Causes extraction of the track with the ID <em class="parameter"><code>TID</code></em> into the file
+       <em class="parameter"><code>outname</code></em> if such a track exists in the source file. This option can be
+       given multiple times. The track IDs are the same as the ones output by
+       <span class="citerefentry"><span class="refentrytitle">mkvmerge</span>(1)</span>'s <code class="option">--identify</code> option.
+      </p><p>
+       Each output name should be used only once. The exception are RealAudio and RealVideo tracks. If you use the same name for different
+       tracks then those tracks will be saved in the same file. Example:
+      </p><pre class="screen">
+$ mkvextract tracks input.mkv 1:output-two-tracks.rm 2:output-two-tracks.rm
+      </pre></dd></dl></div></div><div class="refsect2" title="Tags extraction mode"><a name="mkvextract.description.tags"></a><h3>Tags extraction mode</h3><p>
+    Syntax: <span class="command"><strong>mkvextract</strong></span> <code class="option">tags</code> <em class="parameter"><code>source-filename</code></em> [<span class="optional"><em class="parameter"><code>options</code></em></span>]
+   </p><p>
+    The extracted tags are written to the console unless the output is redirected (see the section about <a class="link" href="#mkvextract.output_redirection" title="Output redirection">output redirection</a> for details).
+   </p></div><div class="refsect2" title="Attachments extraction mode"><a name="mkvextract.description.attachments"></a><h3>Attachments extraction mode</h3><p>
+    Syntax: <span class="command"><strong>mkvextract</strong></span> <code class="option">attachments</code> <em class="parameter"><code>source-filename</code></em> [<span class="optional"><em class="parameter"><code>options</code></em></span>] <em class="parameter"><code>AID1:outname1</code></em> [<span class="optional"><em class="parameter"><code>AID2:outname2</code></em> ...</span>]
+   </p><div class="variablelist"><dl><dt><span class="term">AID:outname</span></dt><dd><p>
+       Causes extraction of the attachment with the ID <em class="parameter"><code>AID</code></em> into the file <em class="parameter"><code>outname</code></em> if such an
+       attachment exists in the source file.  If the <em class="parameter"><code>outname</code></em> is left empty then the name of the attachment inside the
+       source <span class="productname">Matroska</span>&#8482; file is used instead.  This option can be given multiple times.  The attachment IDs are the same as the ones output
+       by <span class="citerefentry"><span class="refentrytitle">mkvmerge</span>(1)</span>'s <code class="option">--identify</code> option.
+     </p></dd></dl></div></div><div class="refsect2" title="Chapters extraction mode"><a name="mkvextract.description.chapters"></a><h3>Chapters extraction mode</h3><p>
+    Syntax: <span class="command"><strong>mkvextract</strong></span> <code class="option">chapters</code> <em class="parameter"><code>source-filename</code></em> [<span class="optional"><em class="parameter"><code>options</code></em></span>]
+   </p><div class="variablelist"><dl><dt><span class="term"><code class="option">-s</code>, <code class="option">--simple</code></span></dt><dd><p>
+       Exports the chapter information in the simple format used in the <abbr class="abbrev">OGM</abbr> tools
+       (CHAPTER01=..., CHAPTER01NAME=...). In this mode some information has to be
+       discarded. Default is to output the chapters in <abbr class="abbrev">XML</abbr> format.
+      </p></dd></dl></div><p>
+    The extracted chapters are written to the console unless the output is redirected (see the section about <a class="link" href="#mkvextract.output_redirection" title="Output redirection">output redirection</a> for details).
+   </p></div><div class="refsect2" title="Cue sheet extraction mode"><a name="mkvextract.description.cuesheets"></a><h3>Cue sheet extraction mode</h3><p>
+    Syntax: <span class="command"><strong>mkvextract</strong></span> <code class="option">cuesheet</code> <em class="parameter"><code>source-filename</code></em> [<span class="optional"><em class="parameter"><code>options</code></em></span>]
+   </p><p>
+    The extracted cue sheet is written to the console unless the output is redirected (see the section about <a class="link" href="#mkvextract.output_redirection" title="Output redirection">output redirection</a> for details).
+   </p></div><div class="refsect2" title="Timecode extraction mode"><a name="mkvextract.description.timecodes_v2"></a><h3>Timecode extraction mode</h3><p>
+    Syntax: <span class="command"><strong>mkvextract</strong></span> <code class="option">timecodes_v2</code> <em class="parameter"><code>source-filename</code></em> [<span class="optional"><em class="parameter"><code>options</code></em></span>]
+   </p><p>
+    The extracted timecodes are written to the console unless the output is redirected (see the section about <a class="link" href="#mkvextract.output_redirection" title="Output redirection">output redirection</a> for details).
+   </p></div></div><div class="refsect1" title="Output redirection"><a name="mkvextract.output_redirection"></a><h2>Output redirection</h2><p>
+   Several extraction modes cause <span class="citerefentry"><span class="refentrytitle">mkvextract</span>(1)</span> to write the extracted data to the console. There are generally two ways of writing this data
+   into a file: one provided by the shell and one provided by <span class="citerefentry"><span class="refentrytitle">mkvextract</span>(1)</span> itself.
+  </p><p>
+   The shell's builtin redirection mechanism is used by appending '<code class="literal">&gt; output-filename.ext</code>' to the command
+   line. Example:
+  </p><pre class="screen">
+$ mkvextract tags source.mkv &gt; tags.xml
+  </pre><p>
+   <span class="citerefentry"><span class="refentrytitle">mkvextract</span>(1)</span>'s own redirection is invoked with the <a class="link" href="#mkvextract.description.common.redirect_output"><code class="option">--redirect-output</code></a> option. Example:
+   </p><pre class="screen">
+$ mkvextract tags source.mkv --redirect-output tags.xml
+  </pre><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
+    On Windows you should probably use the <a class="link" href="#mkvextract.description.common.redirect_output"><code class="option">--redirect-output</code></a> option because
+    <span class="command"><strong>cmd.exe</strong></span> sometimes interpretes special characters before they're written into the output file resulting in broken
+    output.
+   </p></div></div><div class="refsect1" title="Output file formats"><a name="mkvextract.output_file_formats"></a><h2>Output file formats</h2><p>
+   The decision about the output format is based on the track type, not on the extension used for the output file name. The following track
+   types are supported at the moment:
+  </p><div class="variablelist"><dl><dt><span class="term">V_MPEG4/ISO/AVC</span></dt><dd><p>
+      <abbr class="abbrev">H.264</abbr> / <abbr class="abbrev">AVC</abbr> video tracks are written to <abbr class="abbrev">H.264</abbr> elementary streams which can be
+      processed further with e.g. <span class="productname">MP4Box</span>&#8482; from the <span class="productname">GPAC</span>&#8482; package.
+     </p></dd><dt><span class="term">V_MS/VFW/FOURCC</span></dt><dd><p>
+      Fixed <abbr class="abbrev">FPS</abbr> video tracks with this <code class="classname">CodecID</code> are written to <abbr class="abbrev">AVI</abbr> files.
+     </p></dd><dt><span class="term">V_REAL/*</span></dt><dd><p>
+      <span class="productname">RealVideo</span>&#8482; tracks are written to <span class="productname">RealMedia</span>&#8482; files.
+     </p></dd><dt><span class="term">A_MPEG/L3, A_AC3</span></dt><dd><p>
+      These will be extracted to raw <abbr class="abbrev">MP3</abbr> and <abbr class="abbrev">AC3</abbr> files.
+     </p></dd><dt><span class="term">A_PCM/INT/LIT</span></dt><dd><p>
+      Raw <abbr class="abbrev">PCM</abbr> data will be written to a <abbr class="abbrev">WAV</abbr> file.
+     </p></dd><dt><span class="term">A_AAC/MPEG2/*, A_AAC/MPEG4/*, A_AAC</span></dt><dd><p>
+      All <abbr class="abbrev">AAC</abbr> files will be written into an <abbr class="abbrev">AAC</abbr> file with <abbr class="abbrev">ADTS</abbr> headers before each
+      packet. The <abbr class="abbrev">ADTS</abbr> headers will not contain the deprecated emphasis field.
+     </p></dd><dt><span class="term">A_VORBIS</span></dt><dd><p>
+      Vorbis audio will be written into an <span class="productname">OggVorbis</span>&#8482; file.
+     </p></dd><dt><span class="term">A_REAL/*</span></dt><dd><p>
+      <span class="productname">RealAudio</span>&#8482; tracks are written to <span class="productname">RealMedia</span>&#8482; files.
+     </p></dd><dt><span class="term">A_TTA1</span></dt><dd><p>
+      <span class="productname">TrueAudio</span>&#8482; tracks are written to <abbr class="abbrev">TTA</abbr> files. Please note that due to <span class="productname">Matroska</span>&#8482;'s limited
+      timecode precision the extracted file's header will be different regarding two fields: <code class="varname">data_length</code> (the total
+      number of samples in the file) and the <abbr class="abbrev">CRC</abbr>.
+     </p></dd><dt><span class="term">S_TEXT/UTF8</span></dt><dd><p>
+      Simple text subtitles will be written as <abbr class="abbrev">SRT</abbr> files.
+     </p></dd><dt><span class="term">S_TEXT/SSA, S_TEXT/ASS</span></dt><dd><p>
+      <abbr class="abbrev">SSA</abbr> and <abbr class="abbrev">ASS</abbr> text subtitles will be written as <abbr class="abbrev">SSA</abbr>/<abbr class="abbrev">ASS</abbr> files
+      respectively.
+     </p></dd><dt><span class="term">S_KATE</span></dt><dd><p>
+      <span class="productname">Kate</span>&#8482; streams will be written within an <span class="productname">Ogg</span>&#8482; container.
+     </p></dd><dt><span class="term">Tags</span></dt><dd><p>
+      Tags are converted to a <abbr class="abbrev">XML</abbr> format. This format is the same that <span class="citerefentry"><span class="refentrytitle">mkvmerge</span>(1)</span> supports for reading tags.
+     </p></dd><dt><span class="term">Attachments</span></dt><dd><p>
+      Attachments are written to they output file as they are. No conversion whatsoever is done.
+     </p></dd><dt><span class="term">Chapters</span></dt><dd><p>
+      Chapters are converted to a <abbr class="abbrev">XML</abbr> format. This format is the same that <span class="citerefentry"><span class="refentrytitle">mkvmerge</span>(1)</span> supports for reading chapters. Alternatively a
+      stripped-down version can be output in the simple <abbr class="abbrev">OGM</abbr> style format.
+     </p></dd><dt><span class="term">Timecodes</span></dt><dd><p>
+      Timecodes are first sorted and then output as a timecode v2 format compliant file ready to be fed to <span class="citerefentry"><span class="refentrytitle">mkvmerge</span>(1)</span>.  The extraction to
+      other formats (v1, v3 and v4) is not supported.
+     </p></dd></dl></div></div><div class="refsect1" title="Exit codes"><a name="id367767"></a><h2>Exit codes</h2><p>
+   <span class="citerefentry"><span class="refentrytitle">mkvextract</span>(1)</span> exits with one of three exit codes:
+  </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+     <code class="constant">0</code> -- This exit codes means that extraction has completed successfully.
+    </p></li><li class="listitem"><p>
+     <code class="constant">1</code> -- In this case <span class="citerefentry"><span class="refentrytitle">mkvextract</span>(1)</span> has output at least one warning, but extraction did continue.  A warning is
+     prefixed with the text '<code class="literal">Warning:</code>'.  Depending on the issues involved the resulting files might be ok or not.  The
+     user is urged to check both the warning and the resulting files.
+    </p></li><li class="listitem"><p>
+     <code class="constant">2</code> -- This exit code is used after an error occurred.  <span class="citerefentry"><span class="refentrytitle">mkvextract</span>(1)</span> aborts right after outputting the error message.
+     Error messages range from wrong command line arguments over read/write errors to broken files.
+    </p></li></ul></div></div><div class="refsect1" title="See also"><a name="mkvextract.seealso"></a><h2>See also</h2><p>
+   <span class="citerefentry"><span class="refentrytitle">mkvmerge</span>(1)</span>, <span class="citerefentry"><span class="refentrytitle">mkvinfo</span>(1)</span>, <span class="citerefentry"><span class="refentrytitle">mkvpropedit</span>(1)</span>, <span class="citerefentry"><span class="refentrytitle">mmg</span>(1)</span>
+  </p></div><div class="refsect1" title="WWW"><a name="mkvextract.www"></a><h2>WWW</h2><p>
+   The latest version can always be found at <a class="ulink" href="http://www.bunkus.org/videotools/mkvtoolnix/" target="_top">the MKVToolNix homepage</a>.
+  </p></div></div></body></html>

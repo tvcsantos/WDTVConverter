@@ -1,0 +1,159 @@
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>pt.com.santos.wdtvconverter</groupId>
+    <artifactId>WDTVConverter</artifactId>
+    <version>1.2.1</version>
+    <packaging>jar</packaging>
+
+    <name>WDTVConverter</name>
+    <description>A simple Java desktop application based on Swing Application 
+        Framework that converts a mkv video containing DTS tracks to AC3 tracks,
+        and optionally adds more subtitles to the mkv (preventing from crashing 
+        due to external subtitles), creating a mkv that can be played properly 
+        at the WD TV Media Player</description>
+    <url>https://www.github.com/tvcsantos/WDTVConverter</url>
+    
+    <developers>
+        <developer>
+            <id>tvcsantos</id>
+            <name>Tiago Santos</name>
+            <email>tvcsantos@gmail.com</email>
+            <url>https://www.tiago.santos.com.pt</url>
+            <timezone>Europe/Lisbon</timezone>
+        </developer>
+    </developers>
+    
+    <licenses>
+        <license>
+            <name>GNU General Public License (GPL) version 3.0</name>
+            <url>https://www.gnu.org/licenses/gpl-3.0.txt</url>
+        </license>
+    </licenses>
+
+    <properties>
+        <app.title>WD TV Converter</app.title>
+        <app.vendor>tvcsantos</app.vendor>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <bintray.subject>tvcsantos</bintray.subject>
+        <bintray.repo>maven-repo</bintray.repo>
+        <bintray.package>${project.artifactId}</bintray.package>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+    
+        <!-- https://mvnrepository.com/artifact/org.jdesktop/appframework -->
+        <dependency>
+            <groupId>org.jdesktop</groupId>
+            <artifactId>appframework</artifactId>
+            <version>1.0.3</version>
+        </dependency>   
+        
+        <dependency>
+            <groupId>pt.com.santos.util</groupId>
+            <artifactId>java-util</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>pt.com.santos.util</groupId>
+            <artifactId>java-util-appframework</artifactId>
+            <version>1.0.0</version>
+        </dependency>        
+        
+        <dependency>
+            <groupId>pt.com.santos.util</groupId>
+            <artifactId>java-util-program</artifactId>
+            <version>1.0.0</version>
+        </dependency>   
+    </dependencies>
+    
+    <build>
+        <plugins>  
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <!-- here the phase you need -->
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/classes/pt/com/santos/wdtvconverter/resources</outputDirectory>
+                            <resources>          
+                                <resource>
+                                    <directory>src/main/java/pt/com/santos/wdtvconverter/resources</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>              
+                        </configuration>            
+                    </execution>         
+                </executions>
+            </plugin>
+    
+    
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.4.2</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>WDTVConverter</finalName>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <manifestEntries>
+                                        <Main-Class>pt.com.santos.wdtvconverter.WDTVConverterApp</Main-Class>
+                                    </manifestEntries>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <descriptors>
+                                <descriptor>src/main/assembly/zip.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>com.amashchenko.maven.plugin</groupId>
+                <artifactId>gitflow-maven-plugin</artifactId>
+                <version>1.14.0</version>
+                <configuration>
+                    <!-- optional configuration -->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

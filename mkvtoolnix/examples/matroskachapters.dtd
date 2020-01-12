@@ -1,0 +1,36 @@
+<!ELEMENT Chapters (EditionEntry*)>
+<!ELEMENT EditionEntry (
+          EditionUID,
+          EditionFlagHidden?,
+          EditionManaged?,
+          EditionFlagDefault?,
+          ChapterAtom*)>
+
+<!ELEMENT EditionUID (#PCDATA)>
+<!ELEMENT EditionFlagHidden (#PCDATA)>
+<!ELEMENT EditionManaged (#PCDATA)>
+<!ELEMENT EditionFlagDefault (#PCDATA)>
+
+<!ELEMENT ChapterAtom (
+          ChapterTimeStart,
+          ChapterTimeEnd?,
+          ChapterTrack?,
+          ChapterDisplay+,
+          ChapterFlagHidden?,
+          ChapterFlagEnabled?,
+          ChapterAtom*)>
+
+<!ELEMENT ChapterTrack (ChapterTrackNumber)>
+<!ELEMENT ChapterDisplay (
+          ChapterString,
+          ChapterLanguage+,
+          ChapterCountry*)>
+
+<!ELEMENT ChapterTimeStart (#PCDATA)>
+<!ELEMENT ChapterTimeEnd (#PCDATA)>
+<!ELEMENT ChapterFlagHidden (#PCDATA)>
+<!ELEMENT ChapterFlagEnabled (#PCDATA)>
+
+<!ELEMENT ChapterString (#PCDATA)>
+<!ELEMENT ChapterLanguage (#PCDATA)>
+<!ELEMENT ChapterCountry (#PCDATA)>
