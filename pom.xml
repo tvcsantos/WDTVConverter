@@ -77,6 +77,16 @@
     </dependencies>
     
     <build>
+        <resources>          
+            <resource>
+                <directory>${basedir}/eac3to</directory>
+                <targetPath>${basedir}/target/eac3to</targetPath>
+            </resource>
+            <resource>
+                <directory>${basedir}/mkvtoolnix</directory>
+                <targetPath>${basedir}/target/mkvtoolnix</targetPath>
+            </resource>
+        </resources>
         <plugins>  
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
